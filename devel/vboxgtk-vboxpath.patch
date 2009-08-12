@@ -1,0 +1,30 @@
+diff -up vboxgtk-0.5.0/bin/vboxgtk.vboxpath vboxgtk-0.5.0/bin/vboxgtk
+--- vboxgtk-0.5.0/bin/vboxgtk.vboxpath	2009-08-09 18:12:58.000000000 +0200
++++ vboxgtk-0.5.0/bin/vboxgtk	2009-08-09 18:13:05.000000000 +0200
+@@ -34,7 +34,7 @@ anyway (hoping that the user has added t
+ import os
+ import sys
+ import textwrap
+-
++import distutils.sysconfig; 
+ 
+ def prepare_sys_path():
+     vbox_install_path = None
+@@ -58,10 +58,14 @@ def prepare_sys_path():
+         sys.path.insert(0, vbox_install_path)
+         sdk_dir = 'sdk/bindings/xpcom/python'
+         sys.path.insert(0, os.path.join(vbox_install_path, sdk_dir))
+-    base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+-    if os.path.isdir(os.path.join(base_path, 'vboxgtk')):
+-        sys.path.insert(0, base_path)
+ 
++    base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
++    site_lib = os.path.join(distutils.sysconfig.get_python_lib(1), 'virtualbox')
++    
++    for base in (base_path, site_lib):
++        for sub in ('vboxgtk', 'xpcom'):
++            if os.path.isdir(os.path.join(base, sub)):
++                sys.path.insert(0, base)
+ 
+ def test_xpcom_import():
+     msg = """
