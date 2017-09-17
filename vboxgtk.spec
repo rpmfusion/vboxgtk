@@ -1,9 +1,8 @@
 %{!?python_sitelib:  %global python_sitelib  %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-%global debug_package %{nil}
 
 Name:		vboxgtk
 Version:	0.5.0
-Release:	3%{?dist}
+Release:	2%{?dist}
 Summary:	A simple GTK frontend for VirtualBox  
 
 Group:		Applications/Emulators
@@ -17,14 +16,13 @@ Patch1:		vboxgtk-vboxpath.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?fedora} > 11
-ExclusiveArch:	i686 x86_64
+ExclusiveArch:  i686 x86_64
 %else %if 0%{?fedora} > 10
-ExclusiveArch:	i586 x86_64
+ExclusiveArch:  i586 x86_64
 %else
-ExclusiveArch:	i386 x86_64
+ExclusiveArch:  i386 x86_64
 %endif
 
-BuildRequires:	python-devel intltool gettext
 Requires:	python-VirtualBox-OSE
 
 %description
@@ -40,7 +38,7 @@ A simple GTK frontend for VirtualBox.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-python setup.py install --root $RPM_BUILD_ROOT --install-lib=%{python_sitelib}
+./setup.py install --root $RPM_BUILD_ROOT
 %find_lang %{name}
 
 %clean
@@ -62,9 +60,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}
 
 %changelog
-* Sat Aug 15 2009 Hicham HAOUARI <hicham.haouari@gmail.com> 0.5.0-3
-- Fixed BR after a failed build.
-
 * Sun Aug 09 2009 Hicham HAOUARI <hicham.haouari@gmail.com> 0.5.0-2
 - Spec cleanup (https://bugzilla.rpmfusion.org/show_bug.cgi?id=751#c2).
 * Fri Aug 07 2009 Hicham HAOUARI <hicham.haouari@gmail.com> 0.5.0-1
